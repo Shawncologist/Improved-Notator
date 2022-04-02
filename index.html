@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- BEGIN CSS STYLES FILE -->
+  <style>
+    * {
+      font-family: "Calibri", sans-serif;
+    }
+
+    body {
+      background-color: #FFFFFF;
+      width: 100%;
+      height: 100vh;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      outline: none !important;
+      box-shadow: none;
+    }
+
+    input[type="date"]:before {
+      content: attr(placeholder) !important;
+      color: #aaa;
+      margin-right: 0.5em;
+    }
+
+    input[type="date"]:focus:before,
+    input[type="date"]:valid:before {
+      content: "";
+    }
+
+    input[type="month"]:before {
+      content: attr(placeholder) !important;
+      margin-right: 0.5em;
+    }
+
+    input[type="month"]:focus:before,
+    input[type="month"]:valid:before {
+      content: "";
+    }
+
+    /* .container div {
+      padding: 0px;
+      border: 1px solid purple;
+    } */
+
+    .container {
+      margin-right: 5px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows: 0.5fr 0.5fr 1fr 1.8fr 1fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
+      gap: 3px 12px;
+      grid-auto-flow: row;
+      grid-template-areas:
+        "name name name msisdn msisdn msisdn input-note input-note input-note"
+        "status status verify verify contact-id contact-id input-note input-note input-note"
+        "reason reason reason reason reason reason input-note input-note input-note"
+        "action action action action action action input-note input-note input-note"
+        "action action action action action action input-note input-note input-note"
+        "specialized specialized specialized topic-bonus topic-bonus topic-bonus input-note input-note input-note"
+        ". . . . . . input-note input-note input-note"
+        ". . . . . . button1 tags button2"
+        ". . . . . . . . ."
+        ". . . . . . . . ."
+        ". . . . . . . . ."
+        ". . . . . . . . ."
+        ". . . . . . . . ."
+        ". . . . . . . . ."
+        ". . . . . . . . .";
+    }
+
+    .name {
+      grid-area: name;
+    }
+
+    .msisdn {
+      grid-area: msisdn;
+    }
+
+    .input-note {
+      grid-area: input-note;
+    }
+
+    .status {
+      grid-area: status;
+    }
+
+    .verify {
+      grid-area: verify;
+    }
+
+    .contact-id {
+      grid-area: contact-id;
+    }
+
+    .reason {
+      grid-area: reason;
+    }
+
+    .action {
+      grid-area: action;
+    }
+
+    .specialized {
+      grid-area: specialized;
+    }
+
+    .topic-bonus {
+      grid-area: topic-bonus;
+    }
+
+    .button1 {
+      grid-area: button1;
+    }
+
+    .tags {
+      grid-area: tags;
+    }
+
+    .button2 {
+      grid-area: button2;
+    }
+
+    /* :root {
+     --select-border: #777;
+     --select-focus: blue;
+     --select-arrow: var(--select-border);
+    } */
+    /* border: 1px solid var(--select-border); */
+    .btn:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 10px;
+      margin: 4px;
+      box-sizing: border-box;
+      padding-left: 40px;
+      border: 1px solid #4a463f55;
+      border-radius: 0.3em;
+      background-color: #CCCCCC22;
+      font-size: 1.0rem;
+    }
+
+    .input-field::placeholder {
+      color: #AAAAAA;
+      opacity: 1;
+    }
+
+    .textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 4px;
+      box-sizing: border-box;
+      border: 1px solid #4a463f55;
+      border-radius: 0.3em;
+      background-color: #CCCCCC22;
+      font-size: 1.0rem;
+    }
+
+    .textarea::placeholder {
+      color: #AAAAAA;
+      opacity: 1;
+    }
+
+    .icon-inside {
+      position: relative;
+    }
+
+    .icon-inside .grey-icons {
+      position: absolute;
+      top: 5px;
+      padding: 5px 10px;
+      color: #61616E;
+      font-size: 1.7rem;
+    }
+
+    .selectmenu {
+      color: #aaaaaa;
+    }
+
+    .selectedmenu {
+      color: #000000 !important;
+    }
+  </style>
+  <!-- BEGIN HTML FILE -->
+  <title>Notator+</title>
+</head>
+
+<body>
+  <form>
+    <div class="container">
+      <!-- begin core fields -->
+      <div class="name icon-inside">
+        <input id="input-names" class="input-field" type="text" placeholder="First and Last Name">
+        <span class="material-icons grey-icons">account_circle</span>
+      </div>
+      <div class="msisdn icon-inside">
+        <input id="input-msisdn" class="input-field" type="text" placeholder="CX Phone #">
+        <span class="material-icons grey-icons">local_phone</span>
+      </div>
+      <div class="input-note">
+        <textarea id="output-note" class="textarea" rows="28" cols="10" placeholder="Your notes will appear here when you click Combine. They are automatically copied, so you're ready to paste them into Singleview."></textarea>
+      </div>
+      <div class="status icon-inside">
+        <span class="material-icons grey-icons">back_hand</span>
+        <select class="selectmenu input-field selectmenu" id="input-status">
+          <option selected value="">CX Status</option>
+          <option value="Account Holder">Account Holder</option>
+          <option value="Authorized User">Authorized User</option>
+          <option value="Device User">Device User</option>
+          <option value="Not Authorized">Not Authorized</option>
+        </select>
+      </div>
+      <div class="verify icon-inside">
+        <span class="material-icons grey-icons">lock</span>
+        <select class="selectmenu input-field selectmenu" id="input-verify">
+          <option selected value="">Verification</option>
+          <option value="Yes, with PIN">Yes, with PIN</option>
+          <option value="Yes, with MFA SMS">Yes, with MFA SMS</option>
+          <option value="Yes, with MFA Email">Yes, with MFA Email</option>
+          <option value="No, wrong PIN">No, wrong PIN</option>
+          <option value="No, unverified">No, unverified</option>
+        </select>
+      </div>
+      <div class="contact-id icon-inside">
+        <input class="input-field" type="text" placeholder="Conversation ID">
+        <span class="material-icons grey-icons">tag</span>
+      </div>
+      <div class="reason">
+        <textarea class="textarea" rows="3" cols="10" placeholder="Primary reason for the customer's call"></textarea>
+      </div>
+      <div class="action">
+        <textarea class="textarea" rows="9" cols="10" placeholder="Actions you took and information you gave"></textarea>
+      </div>
+      <!-- end core fields -->
+      <div class="specialized icon-inside">specialized</div>
+      <div class="topic-bonus">topic-bonus</div>
+      <div class="button1">copy</div>
+      <div class="tags">tags</div>
+      <div class="button2">reset</div>
+
+    </div>
+  </form>
+  <!-- BEGIN JS SCRIPT FILE -->
+  <script type="text/javascript">
+    // Menu selection change from grey to black
+    let inputStatusText = document.querySelector('#input-status');
+    let inputVerifyText = document.querySelector('#input-verify');
+    inputStatusText.addEventListener('change', function() {
+      inputStatusText.classList.add('selectedmenu');
+      if (inputStatusText.value === "") {
+        inputStatusText.classList.remove('selectedmenu');
+      }
+    });
+    inputVerifyText.addEventListener('change', function() {
+      inputVerifyText.classList.add('selectedmenu');
+      if (inputVerifyText.value === "") {
+        inputVerifyText.classList.remove('selectedmenu');
+      }
+    });
+
+    // Testing input/output scheme
+    var inputNames = document.querySelector('#input-names');
+    var inputMsisdn = document.querySelector('#input-msisdn');
+    var outputResult = document.querySelector('#output-note');
+
+    inputNames.addEventListener('change', function() {
+    outputResult.textContent = "Name: " + this.value + "\n";
+    });
+    inputMsisdn.addEventListener('change', function() {
+    outputResult.textContent += "Phone # " + this.value + "\n";
+    });
+
+
+
+  </script>
+</body>
+
+</html>
