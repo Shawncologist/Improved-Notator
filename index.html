@@ -58,13 +58,13 @@
       gap: 3px 12px;
       grid-auto-flow: row;
       grid-template-areas:
-        "name name name msisdn msisdn msisdn input-note input-note input-note"
-        "status status verify verify contact-id contact-id input-note input-note input-note"
-        "reason reason reason reason reason reason input-note input-note input-note"
-        "action action action action action action input-note input-note input-note"
-        "action action action action action action input-note input-note input-note"
-        "specialized specialized specialized topic-bonus topic-bonus topic-bonus input-note input-note input-note"
-        ". . . . . . input-note input-note input-note"
+        "name name name msisdn msisdn msisdn output-note output-note output-note"
+        "status status verify verify contact-id contact-id output-note output-note output-note"
+        "reason reason reason reason reason reason output-note output-note output-note"
+        "action action action action action action output-note output-note output-note"
+        "action action action action action action output-note output-note output-note"
+        "specialized specialized specialized topic-bonus topic-bonus topic-bonus output-note output-note output-note"
+        ". . . . . . output-note output-note output-note"
         ". . . . . . button1 tags button2"
         ". . . . . . . . ."
         ". . . . . . . . ."
@@ -83,8 +83,8 @@
       grid-area: msisdn;
     }
 
-    .input-note {
-      grid-area: input-note;
+    .output-note {
+      grid-area: output-note;
     }
 
     .status {
@@ -117,6 +117,7 @@
 
     .button1 {
       grid-area: button1;
+      padding-left: 5px;
     }
 
     .tags {
@@ -125,6 +126,7 @@
 
     .button2 {
       grid-area: button2;
+      justify-self: end;
     }
 
     /* :root {
@@ -136,6 +138,34 @@
     .btn:focus {
       outline: none;
       box-shadow: none;
+    }
+
+  .buttons {
+      background-color: #AAAAAA44;
+      border: 1px solid #d5d9d9;
+      border-radius: 0.3em;
+      box-sizing: border-box;
+      color: #0f1111;
+      display: inline-block;
+      font-size: 16px;
+      line-height: 32px;
+      padding: 0 10px 0 11px;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+      -webkit-user-select: none;
+      vertical-align: middle;
+      width: 100px;
+    }
+
+    .buttons:hover {
+      background-color: #CCCCCC22;
+    }
+
+    .buttons:focus {
+      border-color: #CCCCCC22;
+      outline: 0;
     }
 
     .input-field {
@@ -177,10 +207,28 @@
 
     .icon-inside .grey-icons {
       position: absolute;
-      top: 5px;
-      padding: 5px 10px;
+      top: 7px;
+      padding: 6px 10px;
+      font-size: 1.5rem;
+    }
+
+    .input-name-icon {
       color: #61616E;
-      font-size: 1.7rem;
+    }
+
+    .input-name-icon-green {
+      color: #6ab173;
+    }
+
+    .output-note {
+      width: 100%;
+      /* padding: 10px;
+      margin: 4px; */
+      box-sizing: border-box;
+      /* border: 1px solid #4a463f55;
+      border-radius: 0.3em;
+      background-color: #CCCCCC22; */
+      font-size: 1.0rem;
     }
 
     .selectmenu {
@@ -196,23 +244,25 @@
 </head>
 
 <body>
-  <form>
+  <form id="notator-form">
     <div class="container">
       <!-- begin core fields -->
       <div class="name icon-inside">
-        <input id="input-names" class="input-field" type="text" placeholder="First and Last Name">
-        <span class="material-icons grey-icons">account_circle</span>
+        <input id="input-name" class="input-field" type="text" placeholder="First and Last Name">
+        <span id="id-input-name-icon" class="material-icons grey-icons input-name-icon">account_circle</span>
       </div>
       <div class="msisdn icon-inside">
-        <input id="input-msisdn" class="input-field" type="text" placeholder="CX Phone #">
-        <span class="material-icons grey-icons">local_phone</span>
+        <input id="input-msisdn" class="input-field" type="text" placeholder="Account MSISDN">
+        <span id="id-input-msisdn-icon" class="material-icons grey-icons input-name-icon">local_phone</span>
       </div>
-      <div class="input-note">
-        <textarea id="output-note" class="textarea" rows="28" cols="10" placeholder="Your notes will appear here when you click Combine. They are automatically copied, so you're ready to paste them into Singleview."></textarea>
+      <!-- output box doesn't actually need to be located here -->
+      <div class="output-note">
+        <textarea id="output-textarea" class="textarea" rows="28" cols="10" placeholder="Your notes will appear here when you click Combine. They are automatically copied, so you're ready to paste them into Singleview."></textarea>
       </div>
+      <!-- back to input fields again -->
       <div class="status icon-inside">
-        <span class="material-icons grey-icons">back_hand</span>
-        <select class="selectmenu input-field selectmenu" id="input-status">
+        <span id="id-input-status-icon" class="material-icons grey-icons input-name-icon">back_hand</span>
+        <select id="input-status" class="selectmenu input-field selectmenu">
           <option selected value="">CX Status</option>
           <option value="Account Holder">Account Holder</option>
           <option value="Authorized User">Authorized User</option>
@@ -221,7 +271,7 @@
         </select>
       </div>
       <div class="verify icon-inside">
-        <span class="material-icons grey-icons">lock</span>
+        <span id="id-input-verify-icon" class="material-icons grey-icons input-name-icon">lock</span>
         <select class="selectmenu input-field selectmenu" id="input-verify">
           <option selected value="">Verification</option>
           <option value="Yes, with PIN">Yes, with PIN</option>
@@ -232,21 +282,21 @@
         </select>
       </div>
       <div class="contact-id icon-inside">
-        <input class="input-field" type="text" placeholder="Conversation ID">
-        <span class="material-icons grey-icons">tag</span>
+        <input id="input-conversation-id" class="input-field" type="text" placeholder="Conversation ID">
+        <span id="id-input-conversation-id-icon" class="material-icons grey-icons input-name-icon">tag</span>
       </div>
       <div class="reason">
-        <textarea class="textarea" rows="3" cols="10" placeholder="Primary reason for the customer's call"></textarea>
+        <textarea id="input-reason" class="textarea" rows="3" cols="10" placeholder="Primary reason for the customer's call"></textarea>
       </div>
       <div class="action">
-        <textarea class="textarea" rows="9" cols="10" placeholder="Actions you took and information you gave"></textarea>
+        <textarea id="input-action" class="textarea" rows="9" cols="10" placeholder="Actions you took and information you gave"></textarea>
       </div>
       <!-- end core fields -->
-      <div class="specialized icon-inside">specialized</div>
-      <div class="topic-bonus">topic-bonus</div>
-      <div class="button1">copy</div>
+      <!-- <div class="specialized icon-inside">specialized</div> -->
+      <!-- <div class="topic-bonus">topic-bonus</div> -->
+      <div class="button1"><button id="copy-button" class="buttons" type="button" value="copy" onClick="copyNotes()">Copy All</button></div>
       <div class="tags">tags</div>
-      <div class="button2">reset</div>
+      <div class="button2"><button class="buttons" type="button" value="reset" onClick="resetForm()">Reset</button></div>
 
     </div>
   </form>
@@ -268,19 +318,108 @@
       }
     });
 
-    // Testing input/output scheme
-    var inputNames = document.querySelector('#input-names');
-    var inputMsisdn = document.querySelector('#input-msisdn');
-    var outputResult = document.querySelector('#output-note');
+    function resetSelectedMenu() {
+      inputVerifyText.classList.remove('selectedmenu');
+      inputStatusText.classList.remove('selectedmenu');
+    }
 
-    inputNames.addEventListener('change', function() {
-    outputResult.textContent = "Name: " + this.value + "\n";
-    });
-    inputMsisdn.addEventListener('change', function() {
-    outputResult.textContent += "Phone # " + this.value + "\n";
-    });
+    // Input/output scheme
+    let allForm = document.getElementById("notator-form");
+    let output = document.getElementById("output-textarea").value;
+    let inputName = document.querySelector('#input-name');
+    let inputMsisdn = document.querySelector('#input-msisdn');
+    let inputStatus = document.querySelector('#input-status');
+    let inputVerify = document.querySelector('#input-verify');
+    let inputConversationId = document.querySelector('#input-conversation-id');
+    let inputReason = document.querySelector('#input-reason');
+    let inputAction = document.querySelector('#input-action');
 
+    allForm.addEventListener("change", formsCombine);
 
+    function formsCombine() {
+      var cxName = inputName.value;
+      cxName = cxName.toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
+
+      if (inputReason.value === "") {
+        output = "";
+      } else {
+        output = 'Reason: ' + inputReason.value + "\n\n";
+      }
+      if (cxName === "") {
+        output += "";
+        document.getElementById("id-input-name-icon").classList.add("input-name-icon");
+        document.getElementById("id-input-name-icon").classList.remove("input-name-icon-green");
+      } else {
+        output += 'Name: ' + cxName + "\n";
+        document.getElementById("id-input-name-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-name-icon").classList.add("input-name-icon-green");
+      }
+      if (inputMsisdn.value === "") {
+        output += "";
+        document.getElementById("id-input-msisdn-icon").classList.add("input-name-icon");
+        document.getElementById("id-input-msisdn-icon").classList.remove("input-name-icon-green");
+      } else {
+        output += 'Acct MSISDN: ' + inputMsisdn.value + "\n";
+        document.getElementById("id-input-msisdn-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-msisdn-icon").classList.add("input-name-icon-green");
+      }
+      if (inputStatus.value === "") {
+        output += "";
+        document.getElementById("id-input-status-icon").classList.add("input-name-icon");
+        document.getElementById("id-input-status-icon").classList.remove("input-name-icon-green");
+      } else {
+        output += 'CX Status: ' + inputStatus.value + "\n";
+        document.getElementById("id-input-status-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-status-icon").classList.add("input-name-icon-green");
+      }
+      if (inputVerify.value === "") {
+        output += "";
+        document.getElementById("id-input-verify-icon").classList.add("input-name-icon");
+        document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-green");
+      } else {
+        output += 'Verification: ' + inputVerify.value + "\n";
+        document.getElementById("id-input-verify-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-verify-icon").classList.add("input-name-icon-green");
+      }
+      if (inputConversationId.value === "") {
+        output += "";
+        document.getElementById("id-input-conversation-id-icon").classList.add("input-name-icon");
+        document.getElementById("id-input-conversation-id-icon").classList.remove("input-name-icon-green");
+      } else {
+        output += 'Conversation ID: ' + inputConversationId.value + "\n";
+        document.getElementById("id-input-conversation-id-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-conversation-id-icon").classList.add("input-name-icon-green");
+      }
+      if (inputAction.value === "") {
+        output += "";
+      } else {
+        output += 'Action Taken: ' + inputAction.value + "\n";
+      }
+
+      document.getElementById("output-textarea").value = output
+      return text = output;
+    }
+
+// copy the note
+    function copyNotes() {
+      var copyText = document.getElementById("output-textarea");
+      copyText.select();
+      navigator.clipboard.writeText(copyText.value);
+      // document.execCommand("copy");
+    }
+
+    // reset button
+    function resetForm() {
+      document.getElementById("notator-form").reset();
+
+      const allIcons = document.querySelectorAll(".grey-icons");
+      allIcons.forEach(icon => {
+        icon.classList.remove("input-name-icon-green");
+        icon.classList.add("input-name-icon");
+      });
+      resetSelectedMenu()
+
+    }
 
   </script>
 </body>
