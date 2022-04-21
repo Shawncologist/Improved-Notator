@@ -220,6 +220,10 @@
       color: #6ab173;
     }
 
+    .input-name-icon-red {
+      color: #FD5D5D;
+    }
+
     .output-note {
       width: 100%;
       /* padding: 10px;
@@ -338,6 +342,7 @@
 
     function formsCombine() {
       var cxName = inputName.value;
+      cxName = cxName.trim();
       cxName = cxName.toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
 
       if (inputReason.value === "") {
@@ -365,28 +370,48 @@
       }
       if (inputStatus.value === "") {
         output += "";
+        inputVerify.disabled = false;
         document.getElementById("id-input-status-icon").classList.add("input-name-icon");
         document.getElementById("id-input-status-icon").classList.remove("input-name-icon-green");
+        document.getElementById("id-input-status-icon").classList.remove("input-name-icon-red");
+      } else if (inputStatus.value === "Not Authorized") {
+        output += 'CX Status: ' + inputStatus.value + "\n";
+        inputVerify.value = "No, unverified";
+        inputVerify.disabled = true;
+        document.getElementById("id-input-status-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-status-icon").classList.add("input-name-icon-red");
+        document.getElementById("id-input-verify-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-verify-icon").classList.add("input-name-icon-red");
+        document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-green");
       } else {
         output += 'CX Status: ' + inputStatus.value + "\n";
+        inputVerify.disabled = false;
         document.getElementById("id-input-status-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-status-icon").classList.add("input-name-icon-green");
+        document.getElementById("id-input-status-icon").classList.remove("input-name-icon-red");
       }
       if (inputVerify.value === "") {
         output += "";
         document.getElementById("id-input-verify-icon").classList.add("input-name-icon");
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-green");
+        document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-red");
+      } else if (inputVerify.value === "No, unverified" || inputVerify.value === "No, wrong PIN" ) {
+        output += 'Verification: ' + inputVerify.value + "\n";
+        document.getElementById("id-input-verify-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-verify-icon").classList.add("input-name-icon-red");
+        document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-green");
       } else {
         output += 'Verification: ' + inputVerify.value + "\n";
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-verify-icon").classList.add("input-name-icon-green");
+        document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-red");
       }
       if (inputConversationId.value === "") {
         output += "";
         document.getElementById("id-input-conversation-id-icon").classList.add("input-name-icon");
         document.getElementById("id-input-conversation-id-icon").classList.remove("input-name-icon-green");
       } else {
-        output += 'Conversation ID: ' + inputConversationId.value + "\n";
+        output += 'Conversation ID: ' + inputConversationId.value + "\n\n";
         document.getElementById("id-input-conversation-id-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-conversation-id-icon").classList.add("input-name-icon-green");
       }
@@ -404,8 +429,8 @@
     function copyNotes() {
       var copyText = document.getElementById("output-textarea");
       copyText.select();
-      navigator.clipboard.writeText(copyText.value);
-      // document.execCommand("copy");
+      // navigator.clipboard.writeText(copyText.value);
+      document.execCommand("copy");
     }
 
     // reset button
@@ -415,6 +440,7 @@
       const allIcons = document.querySelectorAll(".grey-icons");
       allIcons.forEach(icon => {
         icon.classList.remove("input-name-icon-green");
+        icon.classList.remove("input-name-icon-red");
         icon.classList.add("input-name-icon");
       });
       resetSelectedMenu()
