@@ -58,7 +58,7 @@
       gap: 3px 12px;
       grid-auto-flow: row;
       grid-template-areas:
-        "name name name msisdn msisdn msisdn output-note output-note output-note"
+        "name name caller caller msisdn msisdn output-note output-note output-note"
         "status status verify verify contact-id contact-id output-note output-note output-note"
         "reason reason reason reason reason reason output-note output-note output-note"
         "action action action action action action output-note output-note output-note"
@@ -77,6 +77,10 @@
 
     .name {
       grid-area: name;
+    }
+
+    .caller {
+      grid-area: caller;
     }
 
     .msisdn {
@@ -255,8 +259,12 @@
         <input id="input-name" class="input-field" type="text" placeholder="First and Last Name">
         <span id="id-input-name-icon" class="material-icons grey-icons input-name-icon">account_circle</span>
       </div>
+      <div class="caller icon-inside">
+        <input id="input-caller" class="input-field" type="text" placeholder="Caller Phone #">
+        <span id="id-input-msisdn-icon" class="material-icons grey-icons input-name-icon">local_phone</span>
+      </div>
       <div class="msisdn icon-inside">
-        <input id="input-msisdn" class="input-field" type="text" placeholder="Account MSISDN">
+        <input id="input-msisdn" class="input-field" type="text" placeholder="Acct MSISDN">
         <span id="id-input-msisdn-icon" class="material-icons grey-icons input-name-icon">local_phone</span>
       </div>
       <!-- output box doesn't actually need to be located here -->
