@@ -144,7 +144,7 @@
       box-shadow: none;
     }
 
-  .buttons {
+    .buttons {
       background-color: #AAAAAA44;
       border: 1px solid #d5d9d9;
       border-radius: 0.3em;
@@ -261,7 +261,7 @@
       </div>
       <div class="caller icon-inside">
         <input id="input-caller" class="input-field" type="text" placeholder="Caller Phone #">
-        <span id="id-input-msisdn-icon" class="material-icons grey-icons input-name-icon">local_phone</span>
+        <span id="id-input-caller-icon" class="material-icons grey-icons input-name-icon">local_phone</span>
       </div>
       <div class="msisdn icon-inside">
         <input id="input-msisdn" class="input-field" type="text" placeholder="Acct MSISDN">
@@ -306,7 +306,7 @@
       <!-- end core fields -->
       <!-- <div class="specialized icon-inside">specialized</div> -->
       <!-- <div class="topic-bonus">topic-bonus</div> -->
-      <div class="button1"><button id="copy-button" class="buttons" type="button" value="copy" onClick="copyNotes()">Copy All</button></div>
+      <div class="button1"><button id="copy-button" class="buttons" type="button" value="copy" onClick="formsCombine()">Copy All</button></div>
       <div class="tags">tags</div>
       <div class="button2"><button class="buttons" type="button" value="reset" onClick="resetForm()">Reset</button></div>
 
@@ -339,6 +339,7 @@
     let allForm = document.getElementById("notator-form");
     let output = document.getElementById("output-textarea").value;
     let inputName = document.querySelector('#input-name');
+    let inputCaller = document.querySelector('#input-caller');
     let inputMsisdn = document.querySelector('#input-msisdn');
     let inputStatus = document.querySelector('#input-status');
     let inputVerify = document.querySelector('#input-verify');
@@ -346,44 +347,36 @@
     let inputReason = document.querySelector('#input-reason');
     let inputAction = document.querySelector('#input-action');
 
-    allForm.addEventListener("change", formsCombine);
+    allForm.addEventListener("change", formsUpdate);
 
-    function formsCombine() {
-      var cxName = inputName.value;
-      cxName = cxName.trim();
-      cxName = cxName.toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
-
-      if (inputReason.value === "") {
-        output = "";
-      } else {
-        output = 'Reason: ' + inputReason.value + "\n\n";
-      }
-      if (cxName === "") {
-        output += "";
+    function formsUpdate() {
+      if (inputName === "") {
         document.getElementById("id-input-name-icon").classList.add("input-name-icon");
         document.getElementById("id-input-name-icon").classList.remove("input-name-icon-green");
       } else {
-        output += 'Name: ' + cxName + "\n";
         document.getElementById("id-input-name-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-name-icon").classList.add("input-name-icon-green");
       }
+      if (inputCaller.value === "") {
+        document.getElementById("id-input-caller-icon").classList.add("input-name-icon");
+        document.getElementById("id-input-caller-icon").classList.remove("input-name-icon-green");
+      } else {
+        document.getElementById("id-input-caller-icon").classList.remove("input-name-icon");
+        document.getElementById("id-input-caller-icon").classList.add("input-name-icon-green");
+      }
       if (inputMsisdn.value === "") {
-        output += "";
         document.getElementById("id-input-msisdn-icon").classList.add("input-name-icon");
         document.getElementById("id-input-msisdn-icon").classList.remove("input-name-icon-green");
       } else {
-        output += 'Acct MSISDN: ' + inputMsisdn.value + "\n";
         document.getElementById("id-input-msisdn-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-msisdn-icon").classList.add("input-name-icon-green");
       }
       if (inputStatus.value === "") {
-        output += "";
         inputVerify.disabled = false;
         document.getElementById("id-input-status-icon").classList.add("input-name-icon");
         document.getElementById("id-input-status-icon").classList.remove("input-name-icon-green");
         document.getElementById("id-input-status-icon").classList.remove("input-name-icon-red");
       } else if (inputStatus.value === "Not Authorized") {
-        output += 'CX Status: ' + inputStatus.value + "\n";
         inputVerify.value = "No, unverified";
         inputVerify.disabled = true;
         document.getElementById("id-input-status-icon").classList.remove("input-name-icon");
@@ -392,36 +385,78 @@
         document.getElementById("id-input-verify-icon").classList.add("input-name-icon-red");
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-green");
       } else {
-        output += 'CX Status: ' + inputStatus.value + "\n";
         inputVerify.disabled = false;
         document.getElementById("id-input-status-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-status-icon").classList.add("input-name-icon-green");
         document.getElementById("id-input-status-icon").classList.remove("input-name-icon-red");
       }
       if (inputVerify.value === "") {
-        output += "";
         document.getElementById("id-input-verify-icon").classList.add("input-name-icon");
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-green");
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-red");
-      } else if (inputVerify.value === "No, unverified" || inputVerify.value === "No, wrong PIN" ) {
-        output += 'Verification: ' + inputVerify.value + "\n";
+      } else if (inputVerify.value === "No, unverified" || inputVerify.value === "No, wrong PIN") {
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-verify-icon").classList.add("input-name-icon-red");
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-green");
       } else {
-        output += 'Verification: ' + inputVerify.value + "\n";
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-verify-icon").classList.add("input-name-icon-green");
         document.getElementById("id-input-verify-icon").classList.remove("input-name-icon-red");
       }
       if (inputConversationId.value === "") {
-        output += "";
         document.getElementById("id-input-conversation-id-icon").classList.add("input-name-icon");
         document.getElementById("id-input-conversation-id-icon").classList.remove("input-name-icon-green");
       } else {
-        output += 'Conversation ID: ' + inputConversationId.value + "\n\n";
         document.getElementById("id-input-conversation-id-icon").classList.remove("input-name-icon");
         document.getElementById("id-input-conversation-id-icon").classList.add("input-name-icon-green");
+      }
+    }
+
+
+    // ********************** GIANT OUTPUT FORMATTING *****************
+    function formsCombine() {
+      var cxName = inputName.value;
+      cxName = cxName.trim();
+      cxName = cxName.toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
+
+
+      if (inputReason.value === "") {
+        output = "";
+      } else {
+        output = 'Reason: ' + inputReason.value + "\n\n";
+      }
+      if (cxName === "") {
+        output += "";
+      } else {
+        output += 'Name: ' + cxName + "\n";
+      }
+      if (inputMsisdn.value === "") {
+        output += "";
+      } else {
+        output += 'Acct MSISDN: ' + inputMsisdn.value + "\n";
+      }
+      if (inputStatus.value === "") {
+        output += "";
+        inputVerify.disabled = false;
+      } else if (inputStatus.value === "Not Authorized") {
+        output += 'CX Status: ' + inputStatus.value + "\n";
+        inputVerify.value = "No, unverified";
+        inputVerify.disabled = true;
+      } else {
+        output += 'CX Status: ' + inputStatus.value + "\n";
+        inputVerify.disabled = false;
+      }
+      if (inputVerify.value === "") {
+        output += "";
+      } else if (inputVerify.value === "No, unverified" || inputVerify.value === "No, wrong PIN") {
+        output += 'Verification: ' + inputVerify.value + "\n";
+      } else {
+        output += 'Verification: ' + inputVerify.value + "\n";
+      }
+      if (inputConversationId.value === "") {
+        output += "";
+      } else {
+        output += 'Conversation ID: ' + inputConversationId.value + "\n\n";
       }
       if (inputAction.value === "") {
         output += "";
@@ -433,7 +468,10 @@
       return text = output;
     }
 
-// copy the note
+
+
+
+    // copy the note
     function copyNotes() {
       var copyText = document.getElementById("output-textarea");
       copyText.select();
@@ -454,7 +492,6 @@
       resetSelectedMenu()
 
     }
-
   </script>
 </body>
 
