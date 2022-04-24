@@ -54,20 +54,21 @@
       margin-right: 5px;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-      grid-template-rows: 0.5fr 0.5fr 1fr 1.8fr 1fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
+      grid-template-rows: 50px 50px 50px 35px 150px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
       gap: 3px 12px;
       grid-auto-flow: row;
       grid-template-areas:
         "name name caller caller msisdn msisdn output-note output-note output-note"
         "status status verify verify contact-id contact-id output-note output-note output-note"
         "reason reason reason reason reason reason output-note output-note output-note"
+        "reason reason reason reason reason reason output-note output-note output-note"
         "action action action action action action output-note output-note output-note"
         "action action action action action action output-note output-note output-note"
-        "specialized specialized specialized topic-bonus topic-bonus topic-bonus output-note output-note output-note"
+        "tags tags tags specialized specialized specialized output-note output-note output-note"
         ". . . . . . output-note output-note output-note"
-        ". . . . . . button1 tags button2"
-        ". . . . . . . . ."
-        ". . . . . . . . ."
+        ". . . . . . output-note output-note output-note"
+        ". . . . . . button1 . button2"
+        ". . . . . . button1 . button2"
         ". . . . . . . . ."
         ". . . . . . . . ."
         ". . . . . . . . ."
@@ -122,16 +123,20 @@
     .button1 {
       grid-area: button1;
       padding-left: 5px;
+      margin-top: 10px;
+    }
+
+    .button2 {
+      grid-area: button2;
+      justify-self: end;
+      margin-top: 10px;
     }
 
     .tags {
       grid-area: tags;
     }
 
-    .button2 {
-      grid-area: button2;
-      justify-self: end;
-    }
+
 
     /* :root {
      --select-border: #777;
@@ -303,11 +308,34 @@
       <div class="action">
         <textarea id="input-action" class="textarea" rows="9" cols="10" placeholder="Actions you took and information you gave"></textarea>
       </div>
+      <div class="tags icon-inside">
+        <span id="id-input-tag-icon" class="material-icons grey-icons input-name-icon">check_box</span>
+        <select class="selectmenu input-field selectmenu" id="input-tags">
+          <option selected value="">Pre-Defined Comments</option>
+          <option value="a">a</option>
+          <option value="b">b</option>
+          <option value="c">c</option>
+          <option value="d">d</option>
+          <option value="e">e</option>
+        </select>
+      </div>
+      <div class="specialized icon-inside">
+        <span id="id-input-specialized-icon" class="material-icons grey-icons input-name-icon">star</span>
+        <select class="selectmenu input-field selectmenu" id="input-specialized">
+          <option selected value="">Specialized Topics</option>
+          <option value="a">a</option>
+          <option value="b">b</option>
+          <option value="c">c</option>
+          <option value="d">d</option>
+          <option value="e">e</option>
+        </select>
+      </div>
       <!-- end core fields -->
       <!-- <div class="specialized icon-inside">specialized</div> -->
       <!-- <div class="topic-bonus">topic-bonus</div> -->
-      <div class="button1"><button id="copy-button" class="buttons" type="button" value="copy" onClick="formsCombine()">Copy All</button></div>
-      <div class="tags">tags</div>
+
+      <div class="button1"><button id="copy-button" class="buttons" type="button" value="copy" onClick="combineButton()">Combine</button></div>
+
       <div class="button2"><button class="buttons" type="button" value="reset" onClick="resetForm()">Reset</button></div>
 
     </div>
@@ -350,7 +378,7 @@
     allForm.addEventListener("change", formsUpdate);
 
     function formsUpdate() {
-      if (inputName === "") {
+      if (inputName.value === "") {
         document.getElementById("id-input-name-icon").classList.add("input-name-icon");
         document.getElementById("id-input-name-icon").classList.remove("input-name-icon-green");
       } else {
@@ -469,14 +497,22 @@
     }
 
 
-
+function combineButton() {
+  formsCombine()
+  copyNotes();
+}
 
     // copy the note
     function copyNotes() {
       var copyText = document.getElementById("output-textarea");
+      var copyBtn = document.getElementById("copy-button");
       copyText.select();
       // navigator.clipboard.writeText(copyText.value);
       document.execCommand("copy");
+      copyBtn.innerHTML = "Copied!"
+      setTimeout(function() {
+        copyBtn.innerHTML = "Combine"
+      }, 5000)
     }
 
     // reset button
